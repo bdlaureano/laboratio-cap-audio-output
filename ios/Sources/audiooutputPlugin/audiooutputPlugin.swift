@@ -15,8 +15,8 @@ public class audiooutputPlugin: CAPPlugin, CAPBridgedPlugin {
     @objc func switchToSpeaker(_ call: CAPPluginCall) {
         do {
             let session = AVAudioSession.sharedInstance()
-            try session.setCategory(.playAndRecord, mode: .voiceChat, options: .defaultToSpeaker)
-            try session.overrideOutputAudioPort(.speaker)
+            try session.setCategory(.playAndRecord, mode: .voiceChat, options: [.defaultToSpeaker, .allowBluetooth, .allowBluetoothA2DP])
+            // try session.overrideOutputAudioPort(.speaker)
             try session.setActive(true)
             call.resolve()
         } catch {
@@ -27,8 +27,8 @@ public class audiooutputPlugin: CAPPlugin, CAPBridgedPlugin {
     @objc func switchToEarpiece(_ call: CAPPluginCall) {
         do {
             let session = AVAudioSession.sharedInstance()
-            try session.setCategory(.playAndRecord, mode: .voiceChat)
-            try session.overrideOutputAudioPort(.none)
+            try session.setCategory(.playAndRecord, mode: .voiceChat, options: [.allowBluetooth, .allowBluetoothA2DP])
+            // try session.overrideOutputAudioPort(.none)
             try session.setActive(true)
             call.resolve()
         } catch {

@@ -15,6 +15,9 @@
     "Package.swift",
     "LaboratioCapAudioOutput.podspec"
   ],
+  "publishConfig": {
+    "access": "public"
+  },
   "author": "Ben Laureano",
   "license": "MIT",
   "repository": {
