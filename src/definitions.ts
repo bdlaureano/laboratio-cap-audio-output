@@ -1,3 +1,4 @@
 export interface audiooutputPlugin {
-  echo(options: { value: string }): Promise<{ value: string }>;
+  switchToSpeaker(): Promise<void>;
+  switchToEarpiece(): Promise<void>;
 }

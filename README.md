@@ -13,24 +13,28 @@ npx cap sync
 
 <docgen-index>
 
-* [`echo(...)`](#echo)
+* [`switchToSpeaker()`](#switchtospeaker)
+* [`switchToEarpiece()`](#switchtoearpiece)
 
 </docgen-index>
 
 <docgen-api>
 <!--Update the source file JSDoc comments and rerun docgen to update the docs below-->
 
-### echo(...)
+### switchToSpeaker()
 
 ```typescript
-echo(options: { value: string; }) => Promise<{ value: string; }>
+switchToSpeaker() => Promise<void>
 ```
 
-| Param         | Type                            |
-| ------------- | ------------------------------- |
-| **`options`** | <code>{ value: string; }</code> |
+--------------------
 
-**Returns:** <code>Promise&lt;{ value: string; }&gt;</code>
+
+### switchToEarpiece()
+
+```typescript
+switchToEarpiece() => Promise<void>
+```
 
 --------------------
 

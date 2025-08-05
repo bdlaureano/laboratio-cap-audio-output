@@ -6,17 +6,26 @@ import com.getcapacitor.PluginCall;
 import com.getcapacitor.PluginMethod;
 import com.getcapacitor.annotation.CapacitorPlugin;
 
+import android.media.AudioManager;
+
 @CapacitorPlugin(name = "audiooutput")
 public class audiooutputPlugin extends Plugin {
 
     private audiooutput implementation = new audiooutput();
 
     @PluginMethod
-    public void echo(PluginCall call) {
-        String value = call.getString("value");
+    public void switchToSpeaker(PluginCall call) {
+        AudioManager audioManager = (AudioManager) getContext().getSystemService(Context.AUDIO_SERVICE);
+        audioManager.setMode(AudioManager.MODE_IN_COMMUNICATION);
+        audioManager.setSpeakerPhoneOn(true);
+        call.resolve();
+    }
 
-        JSObject ret = new JSObject();
-        ret.put("value", implementation.echo(value));
-        call.resolve(ret);
+    @PluginMethod
+    public void switchToEarpiece(PluginCall call) {
+        AudioManager audioManager = (AudioManager) getContext().getSystemService(Context.AUDIO_SERVICE);
+        audioManager.setMode(AudioManager.MODE_IN_COMMUNICATION);
+        audioManager.setSpeakerPhoneOn(false);
+        call.resolve();
     }
 }

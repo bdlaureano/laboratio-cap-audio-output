@@ -1,23 +1,38 @@
 import Foundation
 import Capacitor
+import AVFoundation;
 
-/**
- * Please read the Capacitor iOS Plugin Development Guide
- * here: https://capacitorjs.com/docs/plugins/ios
- */
 @objc(audiooutputPlugin)
 public class audiooutputPlugin: CAPPlugin, CAPBridgedPlugin {
     public let identifier = "audiooutputPlugin"
     public let jsName = "audiooutput"
     public let pluginMethods: [CAPPluginMethod] = [
-        CAPPluginMethod(name: "echo", returnType: CAPPluginReturnPromise)
+        CAPPluginMethod(name: "switchToSpeaker", returnType: CAPPluginReturnPromise),
+        CAPPluginMethod(name: "switchToEarpiece", returnType: CAPPluginReturnPromise)
     ]
     private let implementation = audiooutput()
 
-    @objc func echo(_ call: CAPPluginCall) {
-        let value = call.getString("value") ?? ""
-        call.resolve([
-            "value": implementation.echo(value)
-        ])
+    @objc func switchToSpeaker(_ call: CAPPluginCall) {
+        do {
+            let session = AVAudioSession.sharedInstance()
+            try session.setCategory(.playAndRecord, mode: .voiceChat, options: .defaultToSpeaker)
+            try session.overrideOutputAudioPort(.speaker)
+            try session.setActive(true)
+            call.resolve()
+        } catch {
+            call.reject("Error activating speaker: \(error)")
+        }
+    }
+
+    @objc func switchToEarpiece(_ call: CAPPluginCall) {
+        do {
+            let session = AVAudioSession.sharedInstance()
+            try session.setCategory(.playAndRecord, mode: .voiceChat)
+            try session.overrideOutputAudioPort(.none)
+            try session.setActive(true)
+            call.resolve()
+        } catch {
+            call.reject("Error activating earpiece: \(error)")
+        }
     }
 }
